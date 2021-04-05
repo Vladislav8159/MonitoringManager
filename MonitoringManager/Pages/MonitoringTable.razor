@@ -1,0 +1,55 @@
+﻿
+@page "/monitoringTable"
+@using MonitoringManager.DAL;
+@inject DBMonitorAdapter Adapter
+<h3>MonitoringTable</h3>
+
+<table class="table">
+    <tr>
+
+        <th>
+            SystemId
+        </th>
+        <th>
+            CPULoad
+        </th>
+        <th>
+            CPUTemperature
+        </th>
+        <th>
+            SystemTemperature
+        </th>
+        <th>
+            HDDSpace
+        </th>
+        <th>
+            DateTime
+        </th>
+    </tr>
+    <tbody>
+        @foreach (var item in Adapter.GetLastMonitorDate())
+        {
+            
+            <tr>
+                <td>@item.SystemId</td>
+                <td>@item.CPULoad</td>
+                <td>@item.CPUTemperature</td>
+                <td>@item.HDDSpace</td>
+                <td>@item.SystemTemperature</td>
+                <td>@item.Time </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<button class="btn btn-primary"
+ @onclick="UpDate">UpDate</button>
+
+
+@code
+{
+   public void UpDate()
+   {
+
+   }
+}
