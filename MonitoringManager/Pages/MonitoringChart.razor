@@ -1,0 +1,120 @@
+﻿@page "/monitoringChart"
+@using MonitoringManager.DAL
+@using ChartJs.Blazor.LineChart
+@using ChartJs.Blazor.Util
+@using ChartJs.Blazor.Common
+@using ChartJs.Blazor
+
+<h3>MonitoringChart</h3>
+@inject DBMonitorAdapter Adapter
+
+<Chart Config="_config"></Chart>
+
+<p>
+    Выберите ID Системы: <select @bind="MyProperty">
+
+        <optgroup label="SystemId:">
+
+            @foreach (var item in Adapter.ObtainingID())
+            {
+                <option>@item.SystemId</option>
+
+            }
+
+        </optgroup>
+    </select>
+</p>
+
+<p>
+    Введите начальную дату формирования: <input type="datetime-local" name="calendarStart" @bind="model.StartBuilding" />
+</p>
+<p>
+    Введите конечную дату формирования: <input type="datetime-local" name="calendarEnd" @bind="model.EndOfFormation" />
+</p>
+<button class="btn btn-primary"
+        @onclick="GenerateClickHandler">Сформировать
+</button>
+
+
+
+
+@code
+{
+    public void GenerateClickHandler()
+    {
+        _config.Data.Labels.Clear();
+        _config.Data.Datasets.Clear();
+        var line = Adapter.GetInfoSystemModel(model);
+        LineDataset<double> cpuLoad = new LineDataset<double>(line.Select(c => c.CPULoad))
+        {
+            BackgroundColor = ColorUtil.ColorString(0, 171, 255,0.4),
+            Label = "CPULoad",
+        };
+
+        LineDataset<int> cpuTemperature = new LineDataset<int>(line.Select(c => c.CPUTemperature))
+        {
+            BackgroundColor = ColorUtil.ColorString(255, 0, 0, 0.4),
+            Label = "CPUTemperature",
+        };
+
+        LineDataset<int> sysTemperature = new LineDataset<int>(line.Select(c => c.SystemTemperature))
+        {
+            BackgroundColor = ColorUtil.ColorString(255, 255, 51, 0.4),
+            Label = "SystemTemperature",
+        };
+
+        LineDataset<double> hddSpace = new LineDataset<double>(line.Select(c => c.HDDSpace))
+        {
+            BackgroundColor = ColorUtil.ColorString(108, 213, 185, 0.4),
+            Label = "HDDSpace",
+        };
+
+        _config.Data.Datasets.Add(cpuLoad);
+        _config.Data.Datasets.Add(cpuTemperature);
+        _config.Data.Datasets.Add(sysTemperature);
+        _config.Data.Datasets.Add(hddSpace);
+        foreach (DateTime date in line.Select(e => e.Time))
+        {
+            _config.Data.Labels.Add(date.ToString());
+        }
+
+    }
+    public void Init()
+    {
+        _config = new LineConfig
+        {
+            Options = new LineOptions
+            {
+                Responsive = true,
+                Title = new OptionsTitle
+                {
+                    Display = true,
+                    Text = "ChartJs.Blazor Pie Chart"
+                }
+            }
+        };
+
+    }
+    private LineConfig _config;
+    private int myVar;
+
+    public int MyProperty
+    {
+        get { return myVar; }
+        set
+        {
+            myVar = value;
+            var line = Adapter.GettingDate(myVar);
+            model.Id = myVar;
+            model.EndOfFormation = line.dateMin;
+            model.StartBuilding = line.dateMax;
+        }
+    }
+    private SysInfoSearchModel model = new SysInfoSearchModel();
+
+    protected override void OnInitialized()
+    {
+        Init();
+    }
+
+}

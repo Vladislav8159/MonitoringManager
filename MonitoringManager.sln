@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitoringManager", "MonitoringManager\MonitoringManager.csproj", "{2D2B01F7-50B5-47DB-B32B-0DBE408A1452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitoringManager.DAL", "MonitoringManager.DAL\MonitoringManager.DAL.csproj", "{C99B0F62-D30A-415B-9E11-6EBF4990E34B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitoringManager.DAL", "MonitoringManager.DAL\MonitoringManager.DAL.csproj", "{C99B0F62-D30A-415B-9E11-6EBF4990E34B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

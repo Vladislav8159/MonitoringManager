@@ -20,10 +20,75 @@ namespace MonitoringManager.DAL
             Connection.Open();
         }
         private SqlConnection Connection;
+        public (DateTime dateMax,DateTime dateMin ) GettingDate(int sysId)
+        {
+            string sqlCom = "select * from GetDataRangesBySysID(@SystemId)";
+            using SqlTransaction transaction = Connection.BeginTransaction();
+            using SqlCommand command = new SqlCommand(sqlCom, Connection, transaction);
+            command.Parameters.AddWithValue("@SystemId", sysId);
+            using SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                return
+                    (
+                        reader.GetDateTime(reader.GetOrdinal("MinimalDT")),
+                        reader.GetDateTime(reader.GetOrdinal("MaximalDT"))
+                    );
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+        public IEnumerable<SystemInformationModel> GetInfoSystemModel(SysInfoSearchModel model)
+        {
+            List<SystemInformationModel> models = new List<SystemInformationModel>();
+            string sql = "select * from Monitor where SystemID = @SystemID and" +
+                " DateTime between @DateStart" +
+                " and @DateEnd order by DateTime";
+            using SqlTransaction transaction = Connection.BeginTransaction();
+            using SqlCommand command = new SqlCommand(sql, Connection, transaction);
+            command.Parameters.AddWithValue("SystemId", model.Id);
+            command.Parameters.AddWithValue("DateStart", model.StartBuilding);
+            command.Parameters.AddWithValue("DateEnd", model.EndOfFormation);
+            using SqlDataReader reader = command.ExecuteReader();
 
+            while (reader.Read())
+            {
+                
+                SystemInformationModel system = new SystemInformationModel
+                {
+                  SystemId = reader.GetInt32(reader.GetOrdinal("SystemId")),
+                  CPULoad = reader.GetDouble(reader.GetOrdinal("CPULoad")),
+                  CPUTemperature = reader.GetInt32(reader.GetOrdinal("CPUTemperature")),
+                  SystemTemperature = reader.GetInt32(reader.GetOrdinal("SystemTemperature")),
+                  HDDSpace = reader.GetDouble(reader.GetOrdinal("HDDSpace")),
+                  Time = reader.GetDateTime(reader.GetOrdinal("DateTime")),
+                };
+                models.Add(system);
+            }
+            
+            return models;
+        }
+        public IEnumerable<SystemInformationModel> ObtainingID()
+        {
+            string sql = "select * from GetAllSystemIds()";
+            using SqlTransaction transaction = Connection.BeginTransaction();
+            using SqlCommand command = new SqlCommand(sql, Connection, transaction);
+            using SqlDataReader reader = command.ExecuteReader();
+            List<SystemInformationModel> models = new List<SystemInformationModel>();
+            while (reader.Read())
+            {
+                SystemInformationModel system = new SystemInformationModel
+                {
+                    SystemId = reader.GetInt32(reader.GetOrdinal("SystemId"))
+                };
+                models.Add(system);
+            }
+            return models;
+        }
         public IEnumerable<SystemInformationModel> GetLastMonitorDate()
         {
-            SystemInformationModel model = new SystemInformationModel();
             string sql = "select * from VCurrentData";
             using SqlTransaction transaction = Connection.BeginTransaction();
             using SqlCommand command = new SqlCommand(sql, Connection, transaction);
@@ -40,7 +105,7 @@ namespace MonitoringManager.DAL
                   SystemTemperature = reader.GetInt32(reader.GetOrdinal("SystemTemperature")),
                   HDDSpace = reader.GetDouble(reader.GetOrdinal("HDDSpace")),
                   Time = reader.GetDateTime(reader.GetOrdinal("Date")),
-                 };
+                };
                 models.Add(system);
             }
             
