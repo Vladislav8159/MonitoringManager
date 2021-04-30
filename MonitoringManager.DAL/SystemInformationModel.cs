@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MonitoringManager.DAL
 {
@@ -10,8 +6,8 @@ namespace MonitoringManager.DAL
     {
         public int SystemId { get; set; } 
         public double CPULoad { get; set; }
-        public int CPUTemperature { get; set; }
-        public int SystemTemperature { get; set; }
+        public double CPUTemperature { get; set; }
+        public double SystemTemperature { get; set; }
         public double HDDSpace { get; set; }
         public DateTime Time { get; set; }
     }

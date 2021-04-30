@@ -1,17 +1,11 @@
 using ChartJs.Blazor.PieChart;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MonitoringManager.DAL;
-using MonitoringManager.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MonitoringManager.Services;
 
 namespace MonitoringManager
 {
@@ -30,9 +24,9 @@ namespace MonitoringManager
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddScoped<DBMonitorAdapter>();
             services.AddScoped<PieConfig>();
+            services.AddHostedService<DataCollectorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

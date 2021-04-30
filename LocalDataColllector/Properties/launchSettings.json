@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LocalDataColllector": {
+      "commandName": "Project",
+      "commandLineArgs": "system-id=1"
+    }
+  }
+}

@@ -1,5 +1,4 @@
-﻿
-@page "/monitoringTable"
+﻿@page "/monitoringTable"
 @using MonitoringManager.DAL;
 @inject DBMonitorAdapter Adapter
 <h3>MonitoringTable</h3>
@@ -30,14 +29,14 @@
         @foreach (var item in Adapter.GetLastMonitorDate())
         {
             
-            <tr>
-                <td>@item.SystemId</td>
-                <td>@item.CPULoad</td>
-                <td>@item.CPUTemperature</td>
-                <td>@item.HDDSpace</td>
-                <td>@item.SystemTemperature</td>
-                <td>@item.Time </td>
-            </tr>
+        <tr>
+            <td>@item.SystemId</td>
+            <td>@item.CPULoad</td>
+            <td>@item.CPUTemperature</td>
+            <td>@item.SystemTemperature</td>
+            <td>@item.HDDSpace</td>
+            <td>@item.Time </td>
+        </tr>
         }
     </tbody>
 

@@ -51,13 +51,13 @@
             Label = "CPULoad",
         };
 
-        LineDataset<int> cpuTemperature = new LineDataset<int>(line.Select(c => c.CPUTemperature))
+        LineDataset<double> cpuTemperature = new LineDataset<double>(line.Select(c => c.CPUTemperature))
         {
             BackgroundColor = ColorUtil.ColorString(255, 0, 0, 0.4),
             Label = "CPUTemperature",
         };
 
-        LineDataset<int> sysTemperature = new LineDataset<int>(line.Select(c => c.SystemTemperature))
+        LineDataset<double> sysTemperature = new LineDataset<double>(line.Select(c => c.SystemTemperature))
         {
             BackgroundColor = ColorUtil.ColorString(255, 255, 51, 0.4),
             Label = "SystemTemperature",
@@ -89,7 +89,7 @@
                 Title = new OptionsTitle
                 {
                     Display = true,
-                    Text = "ChartJs.Blazor Pie Chart"
+                    Text = "ChartJs.Blazor Line Chart"
                 }
             }
         };

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace MonitoringManager.DAL
 {
@@ -60,8 +57,8 @@ namespace MonitoringManager.DAL
                 {
                   SystemId = reader.GetInt32(reader.GetOrdinal("SystemId")),
                   CPULoad = reader.GetDouble(reader.GetOrdinal("CPULoad")),
-                  CPUTemperature = reader.GetInt32(reader.GetOrdinal("CPUTemperature")),
-                  SystemTemperature = reader.GetInt32(reader.GetOrdinal("SystemTemperature")),
+                  CPUTemperature = reader.GetDouble(reader.GetOrdinal("CPUTemperature")),
+                  SystemTemperature = reader.GetDouble(reader.GetOrdinal("SystemTemperature")),
                   HDDSpace = reader.GetDouble(reader.GetOrdinal("HDDSpace")),
                   Time = reader.GetDateTime(reader.GetOrdinal("DateTime")),
                 };
@@ -96,13 +93,12 @@ namespace MonitoringManager.DAL
             List<SystemInformationModel> models = new List<SystemInformationModel>();
             while (reader.Read())
             {
-               
                 SystemInformationModel system = new SystemInformationModel
                 {
                   SystemId = reader.GetInt32(reader.GetOrdinal("SystemId")),
                   CPULoad = reader.GetDouble(reader.GetOrdinal("CPULoad")),
-                  CPUTemperature = reader.GetInt32(reader.GetOrdinal("CPUTemperature")),
-                  SystemTemperature = reader.GetInt32(reader.GetOrdinal("SystemTemperature")),
+                  CPUTemperature = reader.GetDouble(reader.GetOrdinal("CPUTemperature")),
+                  SystemTemperature = reader.GetDouble(reader.GetOrdinal("SystemTemperature")),
                   HDDSpace = reader.GetDouble(reader.GetOrdinal("HDDSpace")),
                   Time = reader.GetDateTime(reader.GetOrdinal("Date")),
                 };
@@ -147,7 +143,6 @@ namespace MonitoringManager.DAL
                 command.Parameters.AddWithValue("@HDDSpace", item.HDDSpace);
                 command.Parameters.AddWithValue("@DateTime", item.Time);
                 command.ExecuteNonQuery();
-               // Console.WriteLine(command.CommandText);
             }
             transaction.Commit();
         }
