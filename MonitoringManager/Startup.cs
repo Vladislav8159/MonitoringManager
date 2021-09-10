@@ -25,6 +25,7 @@ namespace MonitoringManager
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<DBMonitorAdapter>();
+            services.AddScoped<DBMonitorAdapterService>();
             services.AddScoped<PieConfig>();
             services.AddHostedService<DataCollectorService>();
         }

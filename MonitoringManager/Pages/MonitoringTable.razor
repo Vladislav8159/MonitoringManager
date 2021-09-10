@@ -1,6 +1,6 @@
 ﻿@page "/monitoringTable"
-@using MonitoringManager.DAL;
-@inject DBMonitorAdapter Adapter
+@using MonitoringManager.Services;
+@inject DBMonitorAdapterService Service
 <h3>MonitoringTable</h3>
 
 <table class="table">
@@ -26,7 +26,7 @@
         </th>
     </tr>
     <tbody>
-        @foreach (var item in Adapter.GetLastMonitorDate())
+        @foreach (var item in Service.GetLastMonitorDate())
         {
             
         <tr>
@@ -47,8 +47,8 @@
 
 @code
 {
-   public void UpDate()
-   {
-
-   }
+    public void UpDate()
+    {
+        Service.GetLastMonitorDate();
+    }
 }

@@ -13,7 +13,7 @@ namespace MonitoringManager.Services
     {
         public DataCollectorService()
         {
-            Adapter = new DBMonitorAdapter();
+            Service = new DBMonitorAdapterService();
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -38,13 +38,13 @@ namespace MonitoringManager.Services
             {
                string str = await Socket.ReceiveStringAsync();
                 Console.WriteLine(str);
-               var c = JsonSerializer.Deserialize<SystemInformationModel>(str);
-                Adapter.InsertOne(c);
+               var model = JsonSerializer.Deserialize<SystemInformationModel>(str);
+                Service.InsertOne(model);
             }
         }
         private GatherSocket Socket;
         private Task WorkTask;
         public bool IsRuning = false;
-        private DBMonitorAdapter Adapter;
+        public DBMonitorAdapterService Service;
     }
 }

@@ -12,10 +12,10 @@ namespace LocalDataColllector
         
         static async Task Main(string[] args)
         {
-            var r = args.Where(e => e.Contains("system-id="));
-            if (r.Any())
+            var systemId = args.Where(e => e.Contains("system-id="));
+            if (systemId.Any())
             {
-                SysId = r.First().Split("=")[1];
+                SysId = systemId.First().Split("=")[1];
                 Id = int.Parse(SysId);
             }
             else
@@ -28,8 +28,8 @@ namespace LocalDataColllector
             socket.Connect(URL);
             while (true)
             {
-               var b = source.UpDate();
-               string str = JsonSerializer.Serialize(b);
+               var data = source.UpDate();
+               string str = JsonSerializer.Serialize(data);
                Console.WriteLine(str);
                await socket.SendAsync(str);
                await Task.Delay(new TimeSpan(0,0,2));

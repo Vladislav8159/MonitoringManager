@@ -40,10 +40,9 @@ namespace LocalDataColllector
             return model;
             
         }
-        private PcSensor Sensor;
         private readonly int SysId;
-        private SystemReadings System;
-        private Computer Comp;
-        private PCSensors Sensors;
+        private readonly SystemReadings System;
+        private readonly Computer Comp;
+        private readonly PCSensors Sensors;
     }
 }
